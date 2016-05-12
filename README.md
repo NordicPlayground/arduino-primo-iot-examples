@@ -10,7 +10,7 @@ Extension to nRF5 IOT SDK with examples for Arduino Primo
 
 1. Download and install nrf5_iot_sdk zip file.
    * Download the zip from [here](http://developer.nordicsemi.com/nRF5_IoT_SDK/nRF5_IoT_SDK_v0.9.x/)
-   * Unzip the SDK. The folder chosen when extracting will from now on be called "<sdk-root>".
+   * Unzip the SDK. The folder chosen when extracting will from now on be called "\<sdk-root\>".
     
 2. If you would like to use Jlink and nrfjprog to flash, install the programming tools.
    * Navigate to [http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832](http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832) in a browser and select the “Downloads” tab.

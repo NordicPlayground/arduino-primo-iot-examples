@@ -45,6 +45,12 @@
 
 #define BUTTONS_MASK      (BSP_BUTTON_0_MASK)
 
+#define RX_PIN_NUMBER  11
+#define TX_PIN_NUMBER  12
+#define CTS_PIN_NUMBER 7
+#define RTS_PIN_NUMBER 5
+#define HWFC           false
+
 // Low frequency clock source to be used by the SoftDevice
 #define NRF_CLOCK_LFCLKSRC      NRF_CLOCK_LFCLKSRC_XTAL_20_PPM
 

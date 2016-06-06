@@ -69,12 +69,12 @@ However, use the firmware located at **<sdk-root>\examples\arduino_primo\coap\ip
    
 3. Run the following command to flash the BLE softdevice onto the kit:
    ```
-   openocd -f board/arduino_primo.cfg -c "program <sdk-root>\components\softdevice\s1xx_iot\s1xx-iot-prototype3_nrf52_softdevice.hex verify reset exit"
+   <openocd-root-dir>\bin\openocd -s <openocd-root-dir>\share\openocd\scripts -f board\arduino_primo.cfg -c "program <sdk-root>\components\softdevice\s1xx_iot\s1xx-iot-prototype3_nrf52_softdevice.hex verify reset exit"
    ```
    
 4. Run the following command to flash the server onto the kit:
    ```
-   openocd -f board/arduino_primo.cfg -c "program <sdk-root>\examples\arduino_primo\coap\ipv6\server\hex\nrf52832_xxaa_s1xx_iot.hex verify reset exit"
+   <openocd-root-dir>\bin\openocd -s <openocd-root-dir>\share\openocd\scripts -f board\arduino_primo.cfg -c "program <sdk-root>\examples\arduino_primo\coap\ipv6\server\hex\nrf52832_xxaa_s1xx_iot.hex verify reset exit"
    ```
     
 5. Reset the kit by either unplug/plug the USB cable.

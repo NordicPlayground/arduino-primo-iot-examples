@@ -27,7 +27,7 @@ Extension to nRF5 IOT SDK with examples for Arduino Primo
 4. Install "nRF BLE Joiner" on you Android device.
    * [https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner](https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner)
 
-## Flash the CoAP Server
+## Flash the CoAP Server using Jlink programmer
 
 1. Connect the Jlink Programmer to 10-pin header close to the nrf52 chip. As seen in the image below:
 
@@ -50,7 +50,36 @@ Extension to nRF5 IOT SDK with examples for Arduino Primo
    nrfjprog --reset
    ```
 
-## Flash the CoAP Client
+## Flash the CoAP Client using Jlink programmer
+
+The procedure for flashing the client is the exact same as for the server as described above. 
+However, use the firmware located at **<sdk-root>\examples\arduino_primo\coap\ipv6\client\hex\nrf52832_xxaa_s1xx_iot.hex** when performing step 4.
+
+## Flash the CoAP Server using OpenOCD
+
+1. Download OpenOCD application supporting nrf52 for your OS
+	* [OpenOCD for OSX](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-apple-darwin13.4.0-nrf52.tar.bz2)
+	* [OpenOCD for Linux 32bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-i686-linux-gnu-nrf52.tar.bz2)
+	* [OpenOCD for Linux 64bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-x86_64-linux-gnu-nrf52.tar.bz2)
+	* [OpenOCD for Windows](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-win32-nrf52.tar.bz2)
+
+2. Connect a USB cable form your pc to Arduino Primo board. As seen in the image below:
+
+   ![USBcableConnected](/images/usb_cable_connect.png)
+   
+3. Run the following command to flash the BLE softdevice onto the kit:
+   ```
+   openocd -f board/arduino_primo.cfg -c "program <sdk-root>\components\softdevice\s1xx_iot\s1xx-iot-prototype3_nrf52_softdevice.hex verify reset exit"
+   ```
+   
+4. Run the following command to flash the server onto the kit:
+   ```
+   openocd -f board/arduino_primo.cfg -c "program <sdk-root>\examples\arduino_primo\coap\ipv6\server\hex\nrf52832_xxaa_s1xx_iot.hex verify reset exit"
+   ```
+    
+5. Reset the kit by either unplug/plug the USB cable.
+
+## Flash the CoAP Client using OpenOCD
 
 The procedure for flashing the client is the exact same as for the server as described above. 
 However, use the firmware located at **<sdk-root>\examples\arduino_primo\coap\ipv6\client\hex\nrf52832_xxaa_s1xx_iot.hex** when performing step 4.

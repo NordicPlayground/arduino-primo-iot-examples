@@ -5,6 +5,20 @@ Extension to nRF5 IOT SDK with examples for Arduino Primo
 * Router with [bluetooth_6lowpand](https://github.com/NordicSemiconductor/Linux-ble-6lowpan-joiner) installed and running in Authentication Mode.
 * Android Device to install Configuration tool for the kits.
 * 2 pcs of Arduino Primos.
+
+## The CoAP Server Example
+
+![ArduinoPrimoSetup](/images/arduino_primo_setup.png)
+
+The CoAP server has LED2 representing a Boolean state. If the CoAP client toggles a button press, a coap PUT message will be sent 
+to the server and LED2 on the remote Arduino Primo board will toggle.
+
+## The CoAP Client Example
+The CoAP client button (BUTTON1) is used to trigger the client to send a CoAP message over IPv6 to the CoAP server in order to change the LED state.
+
+The server address is automatically resolved by using the IPv6 prefix of its own address, combining it 
+with the servers hardcoded EUI48 address. The client cannot connect to any other server than the one provided 
+in this example bundle. 
     
 ## Install Android application, SDK and Arduino Primo examples add-on component
 
@@ -81,6 +95,29 @@ The procedure for flashing the client is otherwise the same as for the server, e
 
 The procedure for flashing the client is otherwise the same as for the server, except for the firmware used in step 3. The firmware used for the CoAP client is located at **<sdk-root>\examples\arduino_primo\coap\ipv6\client\hex\nrf52832_xxaa_s1xx_iot.hex**.
 
+## Configure Commissioning details on the kits
+
+An un-configured kit (server or client) will always start without any commissioning details. 
+If there is any need for resetting the kit to default state, power cycle the kit and press BUTTON1 before it 
+establishes a BLE connection. Then power cycle the kit again. 
+
+Then follow the [Configure Node for Joining](http://developer.nordicsemi.com/nRF5_IoT_SDK/doc/0.9.0/html/a00079.html) tutorial to configure the node. 
+
+__Note: The device MUST be configured using the "nRF BLE Joiner" application to enable it to connect to the router.__
+
+###### Notes to the tutorial
+
+* To make your device to start Joining by default without any interaction from the "nRF BLE Joiner" application after the first configuration:
+    * Select the kit to configure.
+    * Press the “Edit default configuration”. 
+      
+      This allows you to configure which mode to start from after a reset. 
+    * Select "No Change" when configuring the "Select a backup mode in case of action failure" option.
+    
+      This will make it go to Joining mode after any reset (reset is a failure).
+
+* If you select “Identify” action in the "nRF BLE Joiner" application, LED2 will blink by default for approx. 20 seconds in order to show you which Arduino Primo board you are going to configure.
+
 ## LEDs
 
 The following LEDs are used by the applications:
@@ -117,40 +154,3 @@ cannot be used anymore to erase the commissioning details. In connection the CoA
 in order to trigger an IPv6 CoAP message to the server.
 
 __Note: Commissioning credentials cannot be erased while in a connection.__
-
-## Configure Commissioning details on the kits
-
-An un-configured kit (server or client) will always start without any commissioning details. 
-If there is any need for resetting the kit to default state, power cycle the kit and press BUTTON1 before it 
-establishes a BLE connection. Then power cycle the kit again. 
-
-Then follow the [Configure Node for Joining](http://developer.nordicsemi.com/nRF5_IoT_SDK/doc/0.9.0/html/a00079.html) tutorial to configure the node. 
-
-__Note: The device MUST be configured using the "nRF BLE Joiner" application to enable it to connect to the router.__
-
-###### Notes to the tutorial
-
-* To make your device to start Joining by default without any interaction from the "nRF BLE Joiner" application after the first configuration:
-    * Select the kit to configure.
-    * Press the “Edit default configuration”. 
-      
-      This allows you to configure which mode to start from after a reset. 
-    * Select "No Change" when configuring the "Select a backup mode in case of action failure" option.
-    
-      This will make it go to Joining mode after any reset (reset is a failure).
-
-* If you select “Identify” action in the "nRF BLE Joiner" application, LED2 will blink by default for approx. 20 seconds in order to show you which Arduino Primo board you are going to configure.
-
-## The CoAP Server Example
-
-![ArduinoPrimoSetup](/images/arduino_primo_setup.png)
-
-The CoAP server has LED2 representing a Boolean state. If the CoAP client toggles a button press, a coap PUT message will be sent 
-to the server and LED2 on the remote Arduino Primo board will toggle.
-
-## The CoAP Client Example
-The CoAP client button (BUTTON1) is used to trigger the client to send a CoAP message over IPv6 to the CoAP server in order to change the LED state.
-
-The server address is automatically resolved by using the IPv6 prefix of its own address, combining it 
-with the servers hardcoded EUI48 address. The client cannot connect to any other server than the one provided 
-in this example bundle. 

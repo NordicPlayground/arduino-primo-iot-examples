@@ -75,7 +75,7 @@ The procedure for flashing the client is otherwise the same as for the server, e
    <openocd-root-dir>\bin\openocd -s <openocd-root-dir>\share\openocd\scripts -f board\arduino_primo.cfg -c "program <sdk-root>\examples\arduino_primo\coap\ipv6\server\hex\nrf52832_xxaa_s1xx_iot.hex verify reset exit"
    ```
     
-4. To reset the kit unplug and replug the USB cable.
+4. To reset the Arduino Primo board, unplug and replug the USB cable.
 
 ## Flash the CoAP Client using OpenOCD
 
@@ -83,36 +83,40 @@ The procedure for flashing the client is otherwise the same as for the server, e
 
 ## LEDs
 
+The following LEDs are used by the applications:
+
+| Application LED | Arduino Primo LED   |
+| --------------- | ------------------- |
+| LED1            | L13                 |
+| LED2            | USER2               |
+
+The position of the LEDs is shown in the following image:
+
 ![Leds](/images/leds.png)
 
-The two following LEDs are used by the applications:
+__LED1__ (yellow) shows the connection state of the application. If LED1 on the Arduino Primo board is blinking, it means 
+that it is advertising. If LED1 is steady-on, it means that it has a BLE connection.
 
-LED1 = L13
-
-LED2 = USER2
-
-The position of the LEDs is shown in the figure above.
-
-LED1 (yellow) has the purpose of showing connection state of the application. If the LED is blinking it means 
-that it is advertising. If the LED is steady on, it means that it has a BLE connection.
-
-LED2 (blue) is application specific. During configuration the LED will be blinking if “Identify” mode is issued from the Android application. 
-In connection the server example is the only one using the LED, to represent toggle requests from the client.
+__LED2__ (blue) is application-specific. If "Identify" mode is issued from the Android application during configuration, the LED2 will be blinking. In connection the server example is the only one using LED2 to represent toggle requests from the client application.
 
 ## Button
 
-![Button](/images/button.png)
-
 The following button is used by the clients:
 
-BUTTON1 = USER2
+| Application Button | Arduino Primo Button |
+| ------------------ | -------------------- |
+| BUTTON1            | USER2                |
 
-The position of the button is shown in the image above.
+The position of BUTTON1 is shown in the following image:
 
-BUTTON1 is application specific. Before any kind of BLE connection has been established, this button is used for 
-erasing the commissioning details stored in flash on the kit. When the kit enters a BLE connection state the button 
-cannot be used to erase the commissioning details anymore. In connection the client is the only one using this button 
+![Button](/images/button.png)
+
+BUTTON1 is application-specific. Before any kind of BLE connection has been established, this button is used for 
+erasing the commissioning details stored in flash on the Arduino Primo board. When the Arduino Primo board enters a BLE connection state, the button 
+cannot be used anymore to erase the commissioning details. In connection the CoAP client is the only one using this button 
 in order to trigger an IPv6 CoAP message to the server.
+
+__Note: Commissioning credentials cannot be erased while in a connection.__
 
 ## Configure Commissioning details on the kits
 
@@ -120,26 +124,33 @@ An un-configured kit (server or client) will always start without any commission
 If there is any need for resetting the kit to default state, power cycle the kit and press BUTTON1 before it 
 establishes a BLE connection. Then power cycle the kit again. 
 
-Then follow the tutorial on how to configure the node using the 
-[Configure Node for Joining](http://developer.nordicsemi.com/nRF5_IoT_SDK/doc/0.9.0/html/a00079.html) tutorial.
+Then follow the [Configure Node for Joining](http://developer.nordicsemi.com/nRF5_IoT_SDK/doc/0.9.0/html/a00079.html) tutorial to configure the node. 
+
+__Note: The device MUST be configured using the "nRF BLE Joiner" application to enable it to connect to the router.__
 
 ###### Notes to the tutorial
 
-1. If you want your device to start Joining by default, without any interaction from the phone after the first configuration. Do the following steps:
-    * When you have selected the kit to configure, press the “Edit default configuration”. This makes you able to configure which mode to start from after a reset. 
-    * Make sure that you select backup mode “No change” when configuring “Connection Mode”. This will make it go to Joining mode after any reset (reset is a failure).
-2. If you select “Identify” in the Android application, LED2 will blink (blue) by default for approx. 20 seconds in order to show you which kit you are going to configure.
+* To make your device to start Joining by default without any interaction from the "nRF BLE Joiner" application after the first configuration:
+    * Select the kit to configure.
+    * Press the “Edit default configuration”. 
+      
+      This allows you to configure which mode to start from after a reset. 
+    * Select "No Change" when configuring the "Select a backup mode in case of action failure" option.
+    
+      This will make it go to Joining mode after any reset (reset is a failure).
+
+* If you select “Identify” action in the "nRF BLE Joiner" application, LED2 will blink by default for approx. 20 seconds in order to show you which Arduino Primo board you are going to configure.
 
 ## The CoAP Server Example
 
 ![ArduinoPrimoSetup](/images/arduino_primo_setup.png)
 
-The server has a led representing a Boolean state (LED2). If the client toggles a button press, a coap PUT message will be sent 
-to the server and the led on the remote kit will toggle.
+The CoAP server has LED2 representing a Boolean state. If the CoAP client toggles a button press, a coap PUT message will be sent 
+to the server and LED2 on the remote Arduino Primo board will toggle.
 
 ## The CoAP Client Example
-The clients button (BUTTON1) is used to trigger the client to send a CoAP message over IPv6 to the server in order to change the LED state.
+The CoAP client button (BUTTON1) is used to trigger the client to send a CoAP message over IPv6 to the CoAP server in order to change the LED state.
 
 The server address is automatically resolved by using the IPv6 prefix of its own address, combining it 
-with a hardcoded EUI48 address of the server. The client cannot connect to any other server than the one provided 
+with the servers hardcoded EUI48 address. The client cannot connect to any other server than the one provided 
 in this example bundle. 

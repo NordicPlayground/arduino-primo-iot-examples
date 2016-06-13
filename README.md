@@ -4,28 +4,33 @@ Extension to nRF5 IOT SDK with examples for Arduino Primo
 ## Prerequisites
 * Router with [bluetooth_6lowpand](https://github.com/NordicSemiconductor/Linux-ble-6lowpan-joiner) installed and running in Authentication Mode.
 * Android Device to install Configuration tool for the kits.
-* 2 Arduino Primo.
+* 2 pcs of Arduino Primos.
     
 ## Install Android application, SDK and Arduino Primo examples add-on component
 
-1. Download and install nrf5_iot_sdk zip file.
-   * Download the zip from [here](http://developer.nordicsemi.com/nRF5_IoT_SDK/nRF5_IoT_SDK_v0.9.x/)
-   * Unzip the SDK. The folder chosen when extracting will from now on be called "\<sdk-root\>".
+1. Download the nrf5_iot_sdk zip file from [here](http://developer.nordicsemi.com/nRF5_IoT_SDK/nRF5_IoT_SDK_v0.9.x/)
+
+2. Unzip the SDK. The targer folder chosen when extracting the zip file will from now on be called "\<sdk-root\>".
     
-2. If you would like to use Jlink and nrfjprog to flash, install the programming tools.
-   * Navigate to [http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832](http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832) in a browser and select the “Downloads” tab.
-   * Download the “nRF5x-Command-Line-Tools” for your architecture.
-   * Install the tools.
-    
-3. Clone the Arduino Primo SDK add-on. 
-   * Navigate to <sdk-root>/examples/
-   * Perform a git clone of the add-on by issuing the following command:
+3. Install flash programming toolchain
+  * If you want to use __JLink__ and __nrfjprog__ to flash, download and install the programming tools:
+    1. Navigate to [http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832](http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF52832) in a browser and select the “Downloads” tab.
+    2. Download the “nRF5x-Command-Line-Tools” for your architecture.
+    3. Install the tools.
+
+  * If you want to use __OpenOCD__ to flash, download the OpenOCD application supporting nrf52 for your OS:
+    * [OpenOCD for OSX](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-apple-darwin13.4.0-nrf52.tar.bz2)
+    * [OpenOCD for Linux 32bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-i686-linux-gnu-nrf52.tar.bz2)
+    * [OpenOCD for Linux 64bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-x86_64-linux-gnu-nrf52.tar.bz2)
+    * [OpenOCD for Windows](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-win32-nrf52.tar.bz2)
+
+4. Do a git clone of the Arduino Primo SDK add-on:
+    * Navigate to __\<sdk-root\>/examples/__ in your extracted SDK and perform a git clone of the add-on by issuing the following command:
    ```
    git clone https://github.com/NordicSemiconductor/arduino-primo-iot-examples.git arduino_primo 
    ```
     
-4. Install "nRF BLE Joiner" on you Android device.
-   * [https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner](https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner)
+5. Install "nRF BLE Joiner" on you Android device from [https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner](https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner)
 
 ## Flash the CoAP Server using Jlink programmer
 
@@ -57,11 +62,6 @@ However, use the firmware located at **<sdk-root>\examples\arduino_primo\coap\ip
 
 ## Flash the CoAP Server using OpenOCD
 
-1. Download OpenOCD application supporting nrf52 for your OS
-	* [OpenOCD for OSX](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-apple-darwin13.4.0-nrf52.tar.bz2)
-	* [OpenOCD for Linux 32bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-i686-linux-gnu-nrf52.tar.bz2)
-	* [OpenOCD for Linux 64bit](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-x86_64-linux-gnu-nrf52.tar.bz2)
-	* [OpenOCD for Windows](http://download.arduino.org/tools/openocd-primo/OpenOCD-0.9.0-arduino.org-win32-nrf52.tar.bz2)
 
 2. Connect a USB cable form your pc to Arduino Primo board. As seen in the image below:
 

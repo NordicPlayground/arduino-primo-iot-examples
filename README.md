@@ -69,6 +69,8 @@ in this example bundle.
    nrfjprog --reset -f nrf52
    ```
    
+6. Configure the Arduino Primo board with commissioning credentials using the "nRF BLE Joiner" application as described [here](#configure-commissioning-details-on-the-kits).
+
 ## Flash the CoAP Client using JLink programmer
 
 The procedure for flashing the client is otherwise the same as for the server, except for the firmware used in step 4. The firmware used for the CoAP client is located at **<sdk-root>\examples\arduino_primo\coap\ipv6\client\hex\nrf52832_xxaa_s1xx_iot.hex**.
@@ -90,6 +92,8 @@ The procedure for flashing the client is otherwise the same as for the server, e
    ```
     
 4. To reset the Arduino Primo board, unplug and replug the USB cable.
+
+5. Configure the Arduino Primo board with commissioning credentials using the "nRF BLE Joiner" application as described [here](#configure-commissioning-details-on-the-kits).
 
 ## Flash the CoAP Client using OpenOCD
 

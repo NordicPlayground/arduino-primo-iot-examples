@@ -19,7 +19,7 @@
  * This file contains the source code for a CoAP server that uses commissioning. The application
  * also uses Eddystone beacons to transmit a URL that points to a web page. This web page contains a
  * commissioning app that uses Web Bluetooth. The URL can be a site located on the local network or an
- * external site. If Button 3 is pushed at startup, the local URL is used.
+ * external site. If Button 1 is pushed at startup, the local URL is used.
  */
 
 #include "boards.h"
@@ -49,7 +49,7 @@
 #define LED_TWO                         BSP_LED_1_MASK
 
 #ifdef COMMISSIONING_ENABLED
-#define ERASE_BUTTON_PIN_NO             BSP_BUTTON_0                                          /**< Button used to erase commissioning settings. Use Button 0 to work on Arduino Primo. */
+#define BUTTON_PIN_NO                   BSP_BUTTON_0                                          /**< Button used to erase commissioning settings. Also used to switch URL from default Github to a local page on the router. */
 #endif // COMMISSIONING_ENABLED
 
 #define COMMAND_OFF                     0x30
@@ -301,7 +301,7 @@ static void timers_init(void)
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
 #ifdef COMMISSIONING_ENABLED
-    if ((button_action == APP_BUTTON_PUSH) && (pin_no == ERASE_BUTTON_PIN_NO))
+    if ((button_action == APP_BUTTON_PUSH) && (pin_no == BUTTON_PIN_NO))
     {
         APPL_LOG("[APPL]: Erasing all commissioning settings from persistent storage... \r\n");
         commissioning_settings_clear();
@@ -323,7 +323,7 @@ static void buttons_init(void)
     static app_button_cfg_t buttons[] =
     {
 #ifdef COMMISSIONING_ENABLED
-        {ERASE_BUTTON_PIN_NO, false, BUTTON_PULL, button_event_handler}
+        {BUTTON_PIN_NO, false, BUTTON_PULL, button_event_handler}
 #endif // COMMISSIONING_ENABLED
     };
 #ifdef EDDYSTONE_ENABLED

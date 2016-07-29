@@ -349,5 +349,150 @@ You need a PC with Ubuntu installed to verify that the kit is connected via IPv6
 You can now be sure that your device has an IPv6 connection! =)
 
 
+# ADDITIONAL: Hosting the Web Bluetooth on the Arduino TIAN
+
+To host the Web Bluetooth application from the Arduino TIAN, instead of Github, some additional setup on the Arduino TIAN is needed.
+
+![intro6](images/intro6.png)
+
+
+## Advanced setup notes 
+
+
+When the Web Bluetooth application is stored locally on the Arduino TIAN, the setup is similar to the example above, except for the following:
+  * The Arduino Primo will advertise a different Eddystone URL hosted locally on the Arduino TIAN’s HTTP server.
+  * The Android phone needs to be connected to the Arduino TIAN’s Wi-Fi and request the Web Bluetooth application from the Arduino TIAN.
+  * In configuration mode, the SSID and the key will be set by default. This is done by the Web Bluetooth application when running on local network. The Web Bluetooth page will request the SSID and the key from the router by issuing a request to a CGI script hosted on the Arduino TIAN.
+
+
+
+
+
+
+
+
+
+
+
+## Additional setup of the Arduino TIAN:
+
+The setup from the example above needs to be completed first.
+In addition, you need to:
+  * Store the Web Bluetooth application files on the Arduino TIAN.
+  * Create a custom domain name resolution of the application URL.
+  * Add a lua-script file to be able to read internal SSID and key.
+
+
+Arduino TIAN has uhttpd installed by default. The uhttpd is configured to use /osjs/dist as the source folder for its content. You can verify this by checking the -h flag of uhttpd: 
+    ```
+    ps | grep "[u]httpd"
+    ```
+This is where your files need to be stored to easily be accessed.
+1. Open File Manager in Arduino OS.
+2. Go to /osjs/dist
+3. Create a folder __nodecfg__ and upload all the Web Bluetooth application files into the folder. One option to retrieve the files is to install GIT on the Arduino TIAN, clone the [physical-web repository](https://github.com/NordicSemiconductor/nrf5-physical-web), and copy the content of __projects/ble-6lowpan-joiner__ into this folder. Alternatively, you can download the files in any other way. Make sure that the files from the __projects/ble-6lowpan-joiner__ folder, copied from the repository, are located inside the __nodecfg__ folder.
+
+The files can now be reached using the URL https://arduino/conf/index.html. But the Eddystone has a limited length on its URLs, so a custom URL must be added.
+
+
+### Adding a custom URL
+
+By adding a custom URL, we can type https://node.cfg and be redirected to the URL https://arduino/nodecfg/index.html (arduino is already a domain name for the global IP).
+Use the terminal to open /etc/config/dhcp for editing and add the following at the end:
+    ```
+    config ‘domain’
+        option ‘name’ ‘node.cfg’
+        option ‘ip’   ‘192.168.240.1’
+    ```
+
+![Edit dhcp](images/dhcpfile.png)
+
+
+The option ip is the global IP. The name option with the value node.cfg is the shortened URL we want to use. 
+For more on how to navigate in files using the terminal, see [this page](https://wiki.openwrt.org/doc/howto/user.beginner.cli).
+
+In /osjs/dist/index.html, add this javascript to the header:
+
+    ```
+    <script type="text/javascript">  
+        if (window.location.hostname == "node.cfg"){  
+            window.location.replace("https://arduino/conf/index.html");  
+        }  
+    </script>
+    ```
+
+![Edit index.html](images/indexfile.png)
+
+
+The Arduino TIAN will now redirect to the Web Bluetooth application.  
+You can edit this file by opening it in a text editor through the file manager.
+
+
+### Reading the SSID and the key
+
+When storing the javascript and the HTML locally on the Arduino TIAN, the current SSID and the key can be read and used as the default option in the opened configuration page. To do this, create a new file in __/osjs/dist/cgi-bin__. Call the file “get_ssid_and_key”, and do not assign a file-suffix. Paste the following lua-script into the file:
+
+```
+#!/usr/bin/lua
+local json = require "luci.json"
+local wsapi = require "wsapi"
+local cgi = require "wsapi.cgi"
+local wrequest = require "wsapi.request"
+local wresponse = require "wsapi.response"
+local osjs = require "osjs"
+
+
+local function console(cmd, back)
+  if back then
+    os.execute(cmd .. " &")
+    return ""
+  end
+
+  local handle = io.popen(cmd)
+  local result = handle:read("*a")
+  handle:close()
+  return result:gsub('%W','')
+end
+
+-- ----------------------------------------------------------------------------
+--                                     MAIN
+-- ----------------------------------------------------------------------------
+
+function run(wsapi_env)
+
+  local len = tonumber(wsapi_env.CONTENT_LENGTH) or 0
+  local input = wsapi_env.input:read(len) or ""
+  local idata = json.decode(input) or {}
+
+  local request  = wrequest.new(wsapi_env)
+  local response = wresponse.new()
+  local method = wsapi_env.PATH_INFO:match("^/(%a+)")
+
+  response:content_type("application/json")
+  
+  local data = {
+    ssid  = console("uci get wireless.@wifi-iface[0].ssid"),
+    key  = string.sub(console("uci get wireless.@wifi-iface[0].key"),1,6)
+  } 
+  local error  = false
+  local result = {error = error, result = data}
+  response:write(json.encode(result))
+  return response:finish()
+end
+
+cgi.run(run)
+```
+
+To allow the file “get_ssid_and_key” to be executed, change the file permissions with the following command:
+    ```
+    chmod +x /osjs/dist/cgi-bin/get_ssid_and_key
+    ```
+
+The Web Bluetooth application javascript checks if it’s located on “arduino” and will then use the “get_ssid_and_key” file to get the local SSID and the key. These values will be used as default suggestions in the node configuration page.
+
+The Arduino TIAN uses self-signed SSL certificates, so Chrome might display a warning about that.
+
+
+
 
 

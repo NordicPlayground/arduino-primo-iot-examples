@@ -40,7 +40,7 @@ in this example bundle.
 4. Do a git clone of the Arduino Primo SDK add-on:
     * Navigate to __\<sdk-root\>/examples/__ in your extracted SDK and perform a git clone of the add-on by issuing the following command:
    ```
-   git clone https://github.com/NordicSemiconductor/arduino-primo-iot-examples.git arduino_primo 
+   git clone https://github.com/NordicPlayground/arduino-primo-iot-examples.git arduino_primo 
    ```
     
 5. Install "nRF BLE Joiner" on you Android device from [https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner](https://play.google.com/store/apps/details?id=no.nordicsemi.android.nrfblejoiner)

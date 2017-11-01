@@ -49,7 +49,7 @@ After the BLE connection has been established between the Primo and the TIAN, th
 4. Do a git clone of the Arduino Primo SDK add-on:
     * Navigate to __\<sdk-root\>/examples/__ in your extracted SDK and perform a git clone of the add-on by issuing the following command:
     ```
-    git clone https://github.com/NordicSemiconductor/arduino-primo-iot-examples.git arduino_primo 
+    git clone https://github.com/NordicPlayground/arduino-primo-iot-examples.git arduino_primo 
     ```
 
 
@@ -390,7 +390,7 @@ Arduino TIAN has uhttpd installed by default. The uhttpd is configured to use /o
 This is where your files need to be stored to easily be accessed.
 1. Open File Manager in Arduino OS.
 2. Go to /osjs/dist
-3. Create a folder __nodecfg__ and upload all the Web Bluetooth application files into the folder. One option to retrieve the files is to install GIT on the Arduino TIAN, clone the [physical-web repository](https://github.com/NordicSemiconductor/nrf5-physical-web), and copy the content of __projects/ble-6lowpan-joiner__ into this folder. Alternatively, you can download the files in any other way. Make sure that the files from the __projects/ble-6lowpan-joiner__ folder, copied from the repository, are located inside the __nodecfg__ folder.
+3. Create a folder __nodecfg__ and upload all the Web Bluetooth application files into the folder. One option to retrieve the files is to install GIT on the Arduino TIAN, clone the [physical-web repository](https://github.com/NordicPlayground/nrf5-physical-web), and copy the content of __projects/ble-6lowpan-joiner__ into this folder. Alternatively, you can download the files in any other way. Make sure that the files from the __projects/ble-6lowpan-joiner__ folder, copied from the repository, are located inside the __nodecfg__ folder.
 
 The files can now be reached using the URL https://arduino/conf/index.html. But the Eddystone has a limited length on its URLs, so a custom URL must be added.
 
